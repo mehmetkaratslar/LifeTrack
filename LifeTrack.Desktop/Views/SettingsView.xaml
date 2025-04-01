@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="LifeTrack.Desktop.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:LifeTrack.Desktop.Views"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="800">
+	<Grid Margin="30">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<!-- Başlık -->
+		<TextBlock Grid.Row="0" Text="Uygulama Ayarları"
+                   FontSize="24" FontWeight="Bold" Margin="0,0,0,30" />
+
+		<!-- Kullanıcı Adı Ayarı -->
+		<Grid Grid.Row="1" Margin="0,0,0,20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Grid.Column="0" Text="Kullanıcı Adı:"
+                       VerticalAlignment="Center" FontSize="16" />
+
+			<TextBox Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="8,5" MaxWidth="300" HorizontalAlignment="Left" Width="250" />
+		</Grid>
+
+		<!-- Tema Ayarı -->
+		<Grid Grid.Row="2" Margin="0,0,0,20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Grid.Column="0" Text="Karanlık Tema:"
+                       VerticalAlignment="Center" FontSize="16" />
+
+			<ToggleButton Grid.Column="1" IsChecked="{Binding IsDarkTheme}"
+                          Width="80" Height="30" HorizontalAlignment="Left">
+				<ToggleButton.Template>
+					<ControlTemplate TargetType="ToggleButton">
+						<Border x:Name="border" Background="#EEEEEE" CornerRadius="15"
+                                BorderThickness="1" BorderBrush="#CCCCCC">
+							<Grid>
+								<Ellipse x:Name="indicator" Width="20" Height="20" HorizontalAlignment="Left"
+                                         Fill="White" Margin="5,0,0,0" />
+								<TextBlock x:Name="stateText" Text="KAPALI" FontSize="12"
+                                           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+							</Grid>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter TargetName="border" Property="Background" Value="#2196F3" />
+								<Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+								<Setter TargetName="indicator" Property="Margin" Value="0,0,5,0" />
+								<Setter TargetName="stateText" Property="Text" Value="AÇIK" />
+								<Setter TargetName="stateText" Property="HorizontalAlignment" Value="Left" />
+								<Setter TargetName="stateText" Property="Margin" Value="8,0,0,0" />
+								<Setter TargetName="stateText" Property="Foreground" Value="White" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</ToggleButton.Template>
+			</ToggleButton>
+		</Grid>
+
+		<!-- Bildirim Ayarı -->
+		<Grid Grid.Row="3" Margin="0,0,0,20">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+
+			<TextBlock Grid.Column="0" Text="Bildirimleri Göster:"
+                       VerticalAlignment="Center" FontSize="16" />
+
+			<ToggleButton Grid.Column="1" IsChecked="{Binding EnableNotifications}"
+                          Width="80" Height="30" HorizontalAlignment="Left">
+				<ToggleButton.Template>
+					<ControlTemplate TargetType="ToggleButton">
+						<Border x:Name="border" Background="#EEEEEE" CornerRadius="15"
+                                BorderThickness="1" BorderBrush="#CCCCCC">
+							<Grid>
+								<Ellipse x:Name="indicator" Width="20" Height="20" HorizontalAlignment="Left"
+                                         Fill="White" Margin="5,0,0,0" />
+								<TextBlock x:Name="stateText" Text="KAPALI" FontSize="12"
+                                           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
+							</Grid>
+						</Border>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="True">
+								<Setter TargetName="border" Property="Background" Value="#2196F3" />
+								<Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+								<Setter TargetName="indicator" Property="Margin" Value="0,0,5,0" />
+								<Setter TargetName="stateText" Property="Text" Value="AÇIK" />
+								<Setter TargetName="stateText" Property="HorizontalAlignment" Value="Left" />
+								<Setter TargetName="stateText" Property="Margin" Value="8,0,0,0" />
+								<Setter TargetName="stateText" Property="Foreground" Value="White" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</ToggleButton.Template>
+			</ToggleButton>
+		</Grid>
+
+		<!-- Hakkında Bölümü -->
+		<Border Grid.Row="4" Background="#F5F5F5" Padding="20" CornerRadius="5" Margin="0,20,0,0">
+			<StackPanel>
+				<TextBlock Text="LifeTrack AI Hakkında" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" />
+				<TextBlock TextWrapping="Wrap">
+					LifeTrack AI, günlük yaşamınızı düzenlemenize yardımcı olan kapsamlı bir kişisel asistan uygulamasıdır.
+					Gider takibi, not alma, hatırlatıcılar ve yapay zeka asistanı özelliklerine sahiptir.
+					<LineBreak /><LineBreak />
+					Sürüm: 1.0.0
+					<LineBreak />
+					© 2025 LifeTrack AI
+				</TextBlock>
+			</StackPanel>
+		</Border>
+
+		<!-- Kaydet Butonu -->
+		<Button Grid.Row="5" Content="Ayarları Kaydet" Command="{Binding SaveSettingsCommand}"
+                Margin="0,20,0,0" Padding="15,8" HorizontalAlignment="Right"
+                Background="#4CAF50" Foreground="White" BorderThickness="0">
+			<Button.Resources>
+				<Style TargetType="Border">
+					<Setter Property="CornerRadius" Value="4"/>
+				</Style>
+			</Button.Resources>
+		</Button>
+	</Grid>
+</UserControl>

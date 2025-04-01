@@ -1,0 +1,74 @@
+﻿<Window x:Class="LifeTrack.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LifeTrack.Desktop"
+        xmlns:viewModels="clr-namespace:LifeTrack.Desktop.ViewModels"
+        xmlns:views="clr-namespace:LifeTrack.Desktop.Views"
+        mc:Ignorable="d"
+        Title="LifeTrack AI" Height="700" Width="1000">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- Sol Menü Paneli -->
+        <Border Background="#2E3A47" Grid.Column="0">
+            <StackPanel>
+                <TextBlock Text="LifeTrack AI" Foreground="White" 
+                           FontSize="26" FontWeight="Bold" 
+                           Margin="20,30,0,40" />
+
+                <RadioButton GroupName="NavButtons" 
+             Content="Ana Sayfa" IsChecked="True"
+               Click="Dashboard_Click"
+             Command="{Binding NavigateToDashboardCommand}"
+             Style="{DynamicResource MenuButtonStyle}" />
+
+                <RadioButton GroupName="NavButtons" 
+             Content="Gider Takibi"
+             Command="{Binding NavigateToExpensesCommand}"
+             Style="{DynamicResource MenuButtonStyle}" />
+
+                <RadioButton GroupName="NavButtons" 
+             Content="AI Asistan"
+             Command="{Binding NavigateToRemindersCommand}"
+             Style="{DynamicResource MenuButtonStyle}" />
+
+                <RadioButton GroupName="NavButtons" 
+             Content="Notlar"
+             Command="{Binding NavigateToNotesCommand}"
+             Style="{DynamicResource MenuButtonStyle}" />
+
+                <RadioButton GroupName="NavButtons" 
+             Content="Ayarlar"
+             Command="{Binding NavigateToSettingsCommand}"
+             Style="{DynamicResource MenuButtonStyle}" />
+            </StackPanel>
+
+
+        </Border>
+
+        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
+                    <views:DashboardView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ExpenseViewModel}">
+                    <views:ExpenseView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:NoteViewModel}">
+                    <views:NoteView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ReminderViewModel}">
+                    <views:ReminderView />
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
+                    <views:SettingsView />
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
+    </Grid>
+</Window>
