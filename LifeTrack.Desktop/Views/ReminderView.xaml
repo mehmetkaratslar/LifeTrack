@@ -1,0 +1,75 @@
+﻿<UserControl x:Class="LifeTrack.Desktop.Views.ReminderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:LifeTrack.Desktop.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Başlık -->
+        <TextBlock Grid.Row="0" Text="Hatırlatıcılar" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" />
+
+        <!-- Yeni Hatırlatıcı Ekleme Formu -->
+        <Grid Grid.Row="1" Margin="0,0,0,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <TextBlock Text="Başlık" Margin="0,0,0,5" />
+                <TextBox Text="{Binding NewReminder.Title, UpdateSourceTrigger=PropertyChanged}" 
+                         Padding="5,3" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                <TextBlock Text="Tarih" Margin="0,0,0,5" />
+                <DatePicker SelectedDate="{Binding NewReminder.DueDate}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="2" Margin="0,0,10,0">
+                <TextBlock Text="Saat" Margin="0,0,0,5" />
+                <TextBox Text="{Binding NewReminder.DueDate, StringFormat='HH:mm'}" 
+                         Padding="5,3" />
+            </StackPanel>
+
+            <Button Grid.Column="3" Content="Ekle" Command="{Binding AddReminderCommand}" 
+                    VerticalAlignment="Bottom" Padding="15,5" />
+        </Grid>
+
+        <!-- Hatırlatıcı Listesi -->
+        <DataGrid Grid.Row="2" ItemsSource="{Binding Reminders}" 
+                  SelectedItem="{Binding SelectedReminder}" 
+                  AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Başlık" Binding="{Binding Title}" Width="*" />
+                <DataGridTextColumn Header="Tarih" Binding="{Binding DueDate, StringFormat='{}{0:dd.MM.yyyy}'}" Width="Auto" />
+                <DataGridTextColumn Header="Saat" Binding="{Binding DueDate, StringFormat='{}{0:HH:mm}'}" Width="Auto" />
+                <DataGridCheckBoxColumn Header="Tamamlandı" Binding="{Binding IsCompleted}" Width="Auto" />
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Düzenle" Margin="2" Padding="5,2" 
+                                        Command="{Binding DataContext.UpdateReminderCommand, 
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                                <Button Content="Sil" Margin="2" Padding="5,2" 
+                                        Command="{Binding DataContext.DeleteReminderCommand, 
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
