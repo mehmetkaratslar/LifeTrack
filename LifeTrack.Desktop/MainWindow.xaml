@@ -7,63 +7,80 @@
         xmlns:viewModels="clr-namespace:LifeTrack.Desktop.ViewModels"
         xmlns:views="clr-namespace:LifeTrack.Desktop.Views"
         mc:Ignorable="d"
-        Title="LifeTrack AI" Height="700" Width="1000">
+        Title="LifeTrack AI" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
         <!-- Sol Menü Paneli -->
         <Border Background="#2E3A47" Grid.Column="0">
-            <StackPanel>
-                <TextBlock Text="LifeTrack AI" Foreground="White" 
-                           FontSize="26" FontWeight="Bold" 
-                           Margin="20,30,0,40" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <!-- Butonları ekleyelim -->
-                <Button Content="Ana Sayfa" 
-                        Click="Dashboard_Click"
-                        Background="#2E3A47" Foreground="White" 
-                        BorderThickness="0" Height="45" 
-                        HorizontalContentAlignment="Left" 
-                        Padding="20,0,0,0" 
-                        HorizontalAlignment="Stretch" />
+                <!-- Uygulama Başlığı -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="LifeTrack AI" Foreground="White" 
+                               FontSize="26" FontWeight="Bold" 
+                               Margin="20,30,0,40" />
+                </StackPanel>
 
-                <Button Content="Gider Takibi" 
-                        Click="Expense_Click"
-                        Background="#2E3A47" Foreground="White" 
-                        BorderThickness="0" Height="45" 
-                        HorizontalContentAlignment="Left" 
-                        Padding="20,0,0,0" 
-                        HorizontalAlignment="Stretch" />
+                <!-- Menü Butonları -->
+                <StackPanel Grid.Row="1">
+                    <RadioButton x:Name="dashboardButton"
+                                Content="Ana Sayfa" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Dashboard"
+                                Style="{StaticResource MenuButtonStyle}"
+                                IsChecked="True" />
 
-                <Button Content="AI Asistan" 
-                        Click="Reminder_Click"
-                        Background="#2E3A47" Foreground="White" 
-                        BorderThickness="0" Height="45" 
-                        HorizontalContentAlignment="Left" 
-                        Padding="20,0,0,0" 
-                        HorizontalAlignment="Stretch" />
+                    <RadioButton x:Name="expenseButton"
+                                Content="Giderler"
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Expense"
+                                Style="{StaticResource MenuButtonStyle}" />
 
-                <Button Content="Notlar" 
-                        Click="Note_Click"
-                        Background="#2E3A47" Foreground="White" 
-                        BorderThickness="0" Height="45" 
-                        HorizontalContentAlignment="Left" 
-                        Padding="20,0,0,0" 
-                        HorizontalAlignment="Stretch" />
+                    <RadioButton x:Name="noteButton"
+                                Content="Notlar" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Note"
+                                Style="{StaticResource MenuButtonStyle}" />
 
-                <Button Content="Ayarlar" 
-                        Click="Settings_Click"
-                        Background="#2E3A47" Foreground="White" 
-                        BorderThickness="0" Height="45" 
-                        HorizontalContentAlignment="Left" 
-                        Padding="20,0,0,0" 
-                        HorizontalAlignment="Stretch" />
-            </StackPanel>
+                    <RadioButton x:Name="reminderButton"
+                                Content="AI Asistan" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Reminder"
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                    <RadioButton x:Name="settingsButton"
+                                Content="Ayarlar" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Settings"
+                                Style="{StaticResource MenuButtonStyle}" />
+                </StackPanel>
+
+                <!-- Alt Bilgi -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,20">
+                    <TextBlock Text="LifeTrack AI v1.0" 
+                               Foreground="#BDBDBD"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,0" />
+                </StackPanel>
+            </Grid>
         </Border>
 
-        <!-- ContentPresenter kullanarak içeriği doğrudan değiştirelim -->
-        <ContentPresenter x:Name="contentPresenter" Grid.Column="1" />
+        <!-- İçerik Alanı -->
+        <Border Grid.Column="1" Background="#F5F7FA">
+            <ContentControl x:Name="contentPresenter" Grid.Column="1" />
+        </Border>
     </Grid>
 </Window>

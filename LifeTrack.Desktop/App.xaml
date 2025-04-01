@@ -1,11 +1,21 @@
 ﻿<Application x:Class="LifeTrack.Desktop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LifeTrack.Desktop">
+             xmlns:local="clr-namespace:LifeTrack.Desktop"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModels="clr-namespace:LifeTrack.Desktop.ViewModels">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- Gölge Efekti -->
                 <ResourceDictionary>
+                    <DropShadowEffect x:Key="MaterialShadow" ShadowDepth="1" BlurRadius="10" Opacity="0.2" Color="#000000"/>
+
+                    <!-- BooleanToVisibilityConverter -->
+                    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+                    <!-- Mevcut Menü Stili -->
                     <Style x:Key="MenuButtonStyle" TargetType="RadioButton">
                         <Setter Property="Foreground" Value="#BDBDBD" />
                         <Setter Property="FontSize" Value="16" />
@@ -31,6 +41,143 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+                    </Style>
+
+                    <!-- Panel için genel stil -->
+                    <Style x:Key="ContentPanelStyle" TargetType="Border">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="CornerRadius" Value="8"/>
+                        <Setter Property="Padding" Value="15"/>
+                        <Setter Property="Effect" Value="{StaticResource MaterialShadow}"/>
+                    </Style>
+
+                    <!-- Buton Stilleri -->
+                    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                        <Setter Property="Background" Value="#4CAF50"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Padding" Value="15,8"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#66BB6A"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#43A047"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="#CCCCCC"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                        <Setter Property="Background" Value="#F5F5F5"/>
+                        <Setter Property="Foreground" Value="#333333"/>
+                        <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Padding" Value="15,8"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="4">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#EEEEEE"/>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="#E0E0E0"/>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Background" Value="#EEEEEE"/>
+                                            <Setter Property="Foreground" Value="#999999"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!-- DataGrid Stilleri -->
+                    <Style TargetType="DataGrid">
+                        <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                        <Setter Property="BorderThickness" Value="1"/>
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="RowBackground" Value="White"/>
+                        <Setter Property="AlternatingRowBackground" Value="#F5F5F5"/>
+                        <Setter Property="HorizontalGridLinesBrush" Value="#EEEEEE"/>
+                        <Setter Property="VerticalGridLinesBrush" Value="#EEEEEE"/>
+                        <Setter Property="HeadersVisibility" Value="Column"/>
+                        <Setter Property="AutoGenerateColumns" Value="False"/>
+                        <Setter Property="CanUserAddRows" Value="False"/>
+                        <Setter Property="CanUserDeleteRows" Value="False"/>
+                        <Setter Property="SelectionMode" Value="Single"/>
+                        <Setter Property="SelectionUnit" Value="FullRow"/>
+                    </Style>
+
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#F5F5F5"/>
+                        <Setter Property="Foreground" Value="#333333"/>
+                        <Setter Property="FontWeight" Value="SemiBold"/>
+                        <Setter Property="Padding" Value="10,8"/>
+                        <Setter Property="BorderBrush" Value="#DDDDDD"/>
+                        <Setter Property="BorderThickness" Value="0,0,1,1"/>
+                    </Style>
+
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="BorderBrush" Value="#EEEEEE"/>
+                        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    </Style>
+
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Background="{TemplateBinding Background}" 
+                                            BorderBrush="{TemplateBinding BorderBrush}" 
+                                            BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter VerticalAlignment="Center"/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+
+                    <!-- LiveCharts Stilleri -->
+                    <Style TargetType="lvc:CartesianChart">
+                        <Setter Property="Foreground" Value="#333333"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="DisableAnimations" Value="False"/>
+                        <Setter Property="AnimationsSpeed" Value="00:00:00.5"/>
+                    </Style>
+
+                    <Style TargetType="lvc:PieChart">
+                        <Setter Property="Foreground" Value="#333333"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="DisableAnimations" Value="False"/>
+                        <Setter Property="AnimationsSpeed" Value="00:00:00.5"/>
+                        <Setter Property="InnerRadius" Value="0"/>
+                        <Setter Property="LegendLocation" Value="Bottom"/>
                     </Style>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

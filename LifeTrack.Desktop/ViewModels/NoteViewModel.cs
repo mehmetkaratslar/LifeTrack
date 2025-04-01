@@ -1,4 +1,4 @@
-﻿using LifeTrack.Core.Models;
+using LifeTrack.Core.Models;
 using LifeTrack.Desktop.Commands;
 using LifeTrack.Services;
 using System;
@@ -14,7 +14,39 @@ namespace LifeTrack.Desktop.ViewModels
         private ObservableCollection<Note> _notes;
         private Note _selectedNote;
         private Note _newNote;
+        private string _searchText;
 
+
+        public string SearchText
+        {
+            get => _searchText;
+            set
+            {
+                SetProperty(ref _searchText, value);
+                // Arama metni değiştiğinde notları filtrelemek için
+                FilterNotes();
+            }
+        }
+
+        private void FilterNotes()
+        {
+            // Burada SearchText'e göre notları filtreleyebilirsiniz
+            // Örnek:
+            if (string.IsNullOrWhiteSpace(SearchText))
+            {
+                // Arama kutusu boşsa tüm notları göster
+                // Eğer bir ObservableCollection<Note> kullanıyorsanız:
+                // FilteredNotes = new ObservableCollection<Note>(AllNotes);
+            }
+            else
+            {
+                // Arama kriterine göre filtrele
+                // FilteredNotes = new ObservableCollection<Note>(
+                //     AllNotes.Where(n => n.Title.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                //                      n.Content.Contains(SearchText, StringComparison.OrdinalIgnoreCase))
+                // );
+            }
+        }
         public NoteViewModel(NoteService noteService)
         {
             _noteService = noteService ?? throw new ArgumentNullException(nameof(noteService));

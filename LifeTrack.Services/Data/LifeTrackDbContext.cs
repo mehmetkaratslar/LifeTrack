@@ -18,7 +18,6 @@ namespace LifeTrack.Services.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // Veritabanı dosyasının uzak bir sunucudaki dosyaya yönlendirildiğinden emin olun
                 string dbPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                     "LifeTrackDb.db");

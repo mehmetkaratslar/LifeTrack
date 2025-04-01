@@ -1,0 +1,21 @@
+<Shell 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:LifeTrack.Mobile.Views"
+    x:Class="LifeTrack.Mobile.AppShell">
+
+    <!-- Alt sekme (Tab) olarak gider listesi -->
+    <TabBar>
+        <Tab Title="Giderler" Icon="expenses.png">
+            <ShellContent 
+                Title="Giderler" 
+                ContentTemplate="{DataTemplate views:ExpenseListPage}" 
+                Route="ExpenseListPage" />
+        </Tab>
+    </TabBar>
+
+    <!-- Harici yönlendirme için kayıtlı sayfa -->
+    <ShellContent 
+        Route="AddExpensePage" 
+        ContentTemplate="{DataTemplate views:AddExpensePage}" />
+</Shell>

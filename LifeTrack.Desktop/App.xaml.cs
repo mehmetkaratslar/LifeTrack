@@ -1,6 +1,8 @@
-﻿using LifeTrack.Desktop.ViewModels;
+﻿using LifeTrack.Core.Models;
+using LifeTrack.Desktop.ViewModels;
 using LifeTrack.Services;
 using LifeTrack.Services.Data;
+using LifeTrack.Services.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -24,7 +26,8 @@ namespace LifeTrack.Desktop
                     context.Database.EnsureCreated();
                 }
 
-                var mainWindow = new MainWindow(ServiceProvider.GetRequiredService<MainViewModel>());
+                var viewModel = ServiceProvider.GetRequiredService<MainViewModel>();
+                var mainWindow = new MainWindow(viewModel);
                 mainWindow.Show();
             }
             catch (Exception ex)
@@ -41,18 +44,18 @@ namespace LifeTrack.Desktop
             services.AddDbContext<LifeTrackDbContext>();
 
             // Servisler
-            services.AddSingleton<ExpenseService>();
-            services.AddSingleton<CategoryService>();
-            services.AddSingleton<NoteService>();
-            services.AddSingleton<ReminderService>();
+            services.AddScoped<IRepository<Expense>, ExpenseService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IRepository<Note>, NoteService>();
+            services.AddScoped<IRepository<Reminder>, ReminderService>();
 
-            // ViewModels - singleton yapalım
-            services.AddSingleton<DashboardViewModel>();
-            services.AddSingleton<ExpenseViewModel>();
-            services.AddSingleton<NoteViewModel>();
-            services.AddSingleton<ReminderViewModel>();
-            services.AddSingleton<SettingsViewModel>();
-            services.AddSingleton<MainViewModel>();
+            // ViewModels - Scoped kullanıyoruz (bir oturum için tek instance)
+            services.AddScoped<DashboardViewModel>();
+            services.AddScoped<ExpenseViewModel>();
+            services.AddScoped<NoteViewModel>();
+            services.AddScoped<ReminderViewModel>();
+            services.AddScoped<SettingsViewModel>();
+            services.AddScoped<MainViewModel>();
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:LifeTrack.Mobile.Converters"
+    x:Class="LifeTrack.Mobile.App">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Gömülü renk ve stil sözlükleri -->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Converter'lar -->
+            <converters:CategoryColorConverter x:Key="CategoryColorConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

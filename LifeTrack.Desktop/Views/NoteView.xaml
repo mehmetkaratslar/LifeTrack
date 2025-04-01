@@ -5,63 +5,397 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LifeTrack.Desktop.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800"
+             Background="#FDFDFD">
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="CardShadow" ShadowDepth="2" BlurRadius="15" Opacity="0.2" Color="#00000020"/>
+    </UserControl.Resources>
+
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <!-- Not Listesi -->
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        <!-- Sol Panel - Not Listesi -->
+        <Border Grid.Column="0" 
+                Background="White" 
+                CornerRadius="10" 
+                Padding="15"
+                BorderThickness="0"
+                Effect="{StaticResource CardShadow}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Notlarım" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+                <!-- Başlık -->
+                <TextBlock Grid.Row="0" 
+                           Text="📝 Notlarım" 
+                           FontSize="22" 
+                           FontWeight="SemiBold" 
+                           Foreground="#1F2937"
+                           Margin="0,0,0,15"/>
 
-            <ListView Grid.Row="1" ItemsSource="{Binding Notes}" 
-                      SelectedItem="{Binding SelectedNote}" 
-                      BorderThickness="0">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Margin="0,5">
-                            <TextBlock Text="{Binding Title}" FontWeight="SemiBold" />
-                            <TextBlock Text="{Binding CreatedAt, StringFormat='{}{0:dd MMM yyyy, HH:mm}'}" 
-                                       FontSize="11" Opacity="0.7" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Grid>
+                <!-- Arama Kutusu -->
+                <Border Grid.Row="1" 
+                        BorderThickness="1" 
+                        BorderBrush="#E5E7EB" 
+                        CornerRadius="6"
+                        Margin="0,0,0,15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" 
+                                   Text="🔍" 
+                                   Margin="10,0,0,0" 
+                                   FontSize="14" 
+                                   Foreground="#6B7280"
+                                   VerticalAlignment="Center"/>
+                        <TextBox Grid.Column="1" 
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                 BorderThickness="0"
+                                 Padding="5,8"
+                                 FontSize="14"
+                                 Background="Transparent"
+                                 Foreground="#1F2937"
+                                 VerticalContentAlignment="Center"/>
+                    </Grid>
+                </Border>
 
-        <!-- Not Detayı / Editör -->
-        <Grid Grid.Column="1" Margin="20,0,0,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+                <!-- Not Listesi -->
+                <ListView Grid.Row="2" 
+                          ItemsSource="{Binding Notes}" 
+                          SelectedItem="{Binding SelectedNote}" 
+                          BorderThickness="0"
+                          Background="Transparent">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Padding" Value="10"/>
+                            <Setter Property="Margin" Value="2"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="#F3F4F6"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#E0E7FF"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderThickness="0,0,0,1" 
+                                    BorderBrush="#E5E7EB" 
+                                    Padding="0,5,0,10">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Text="Not Detayı" FontSize="20" FontWeight="Bold" Margin="0,0,0,10" />
+                                    <!-- Renk Etiketleri -->
+                                    <StackPanel Grid.Row="0" 
+                                                Orientation="Horizontal" 
+                                                HorizontalAlignment="Left"
+                                                Margin="0,0,0,5">
+                                        <Border Background="{Binding ColorHex, FallbackValue=#6366F1}" 
+                                                Width="14" 
+                                                Height="14" 
+                                                CornerRadius="7"
+                                                Margin="0,0,5,0"/>
+                                    </StackPanel>
 
-            <TextBox Grid.Row="1" Text="{Binding NewNote.Title, UpdateSourceTrigger=PropertyChanged}" 
-                     Margin="0,0,0,10" Padding="5" />
+                                    <!-- Başlık -->
+                                    <TextBlock Grid.Row="1" 
+                                               Text="{Binding Title}" 
+                                               FontWeight="SemiBold" 
+                                               Foreground="#1F2937"
+                                               TextTrimming="CharacterEllipsis"/>
 
-            <TextBox Grid.Row="2" Text="{Binding NewNote.Content, UpdateSourceTrigger=PropertyChanged}" 
-                     TextWrapping="Wrap" AcceptsReturn="True" 
-                     VerticalScrollBarVisibility="Auto" Padding="5" />
+                                    <!-- Özet ve Tarih -->
+                                    <Grid Grid.Row="2" Margin="0,5,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
-                <Button Content="Yeni Not" Command="{Binding AddNoteCommand}" 
-                        Padding="10,5" Margin="0,0,5,0" />
-                <Button Content="Güncelle" Command="{Binding UpdateNoteCommand}" 
-                        Padding="10,5" Margin="0,0,5,0" />
-                <Button Content="Sil" Command="{Binding DeleteNoteCommand}" 
-                        Padding="10,5" />
-            </StackPanel>
-        </Grid>
+                                        <!-- İçerik Özeti -->
+                                        <TextBlock Grid.Column="0" 
+                                                   Text="{Binding Content}" 
+                                                   TextTrimming="CharacterEllipsis"
+                                                   Foreground="#6B7280" 
+                                                   FontSize="12"
+                                                   MaxHeight="40"/>
+
+                                        <!-- Tarih -->
+                                        <TextBlock Grid.Column="1" 
+                                                   Text="{Binding CreatedAt, StringFormat='{}{0:dd MMM yyyy}'}" 
+                                                   FontSize="11" 
+                                                   Foreground="#6B7280"
+                                                   VerticalAlignment="Bottom"
+                                                   Margin="10,0,0,0"/>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Border>
+
+        <!-- Sağ Panel - Not Editörü -->
+        <Border Grid.Column="1" 
+                Background="#FAFAFA" 
+                CornerRadius="10" 
+                Padding="20"
+                Margin="15,0,0,0"
+                BorderThickness="0"
+                Effect="{StaticResource CardShadow}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Başlık -->
+                <TextBlock Grid.Row="0" 
+                           Text="✏️ Not Düzenleyici" 
+                           FontSize="22" 
+                           FontWeight="SemiBold" 
+                           Foreground="#1F2937"
+                           Margin="0,0,0,15"/>
+
+                <!-- Başlık Alanı -->
+                <Border Grid.Row="1"
+                        BorderThickness="1"
+                        BorderBrush="#E5E7EB"
+                        CornerRadius="6"
+                        Margin="0,0,0,15">
+                    <TextBox Text="{Binding NewNote.Title, UpdateSourceTrigger=PropertyChanged}" 
+                             FontSize="16"
+                             FontWeight="SemiBold"
+                             Padding="10,8"
+                             Foreground="#1F2937"
+                             BorderThickness="0"
+                             Background="White"/>
+                </Border>
+
+                <!-- Formatlama Araç Çubuğu -->
+                <Border Grid.Row="2" 
+                        Margin="0,0,0,15" 
+                        Background="#F3F4F6" 
+                        BorderThickness="0"
+                        CornerRadius="6"
+                        Padding="8,4">
+                    <ToolBar Background="Transparent" BorderThickness="0">
+                        <ToolBar.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Margin" Value="3"/>
+                                <Setter Property="Padding" Value="8,4"/>
+                                <Setter Property="Background" Value="#F9FAFB"/>
+                                <Setter Property="Foreground" Value="#1F2937"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style TargetType="ToggleButton">
+                                <Setter Property="Margin" Value="3"/>
+                                <Setter Property="Padding" Value="8,4"/>
+                                <Setter Property="Background" Value="#F9FAFB"/>
+                                <Setter Property="Foreground" Value="#1F2937"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border x:Name="border" 
+                                                    Background="{TemplateBinding Background}" 
+                                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    CornerRadius="6">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#E0E7FF"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+
+                            <Style TargetType="Separator">
+                                <Setter Property="Margin" Value="5,0"/>
+                                <Setter Property="Background" Value="#E5E7EB"/>
+                            </Style>
+
+                            <Style TargetType="ComboBox">
+                                <Setter Property="Margin" Value="3"/>
+                                <Setter Property="Background" Value="#F9FAFB"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                            </Style>
+                        </ToolBar.Resources>
+
+                        <!-- Yazı Tipi Boyutu -->
+                        <ComboBox Width="80" SelectedIndex="1">
+                            <ComboBoxItem Content="Küçük"/>
+                            <ComboBoxItem Content="Normal"/>
+                            <ComboBoxItem Content="Büyük"/>
+                            <ComboBoxItem Content="Çok Büyük"/>
+                        </ComboBox>
+
+                        <!-- Yazı Tipi Kontrolü -->
+                        <Separator/>
+                        <ToggleButton Content="B" FontWeight="Bold" ToolTip="Kalın"/>
+                        <ToggleButton Content="I" FontStyle="Italic" ToolTip="İtalik"/>
+                        <ToggleButton Content="U" ToolTip="Altı Çizili">
+                            <ToggleButton.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="U" TextDecorations="Underline"/>
+                                </DataTemplate>
+                            </ToggleButton.ContentTemplate>
+                        </ToggleButton>
+
+                        <!-- Metin Hizalama -->
+                        <Separator/>
+                        <Button Content="⇀" ToolTip="Sola Hizala"/>
+                        <Button Content="⇌" ToolTip="Ortala"/>
+                        <Button Content="⇁" ToolTip="Sağa Hizala"/>
+
+                        <!-- Renk Seçici -->
+                        <Separator/>
+                        <ComboBox Width="40" Background="White">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Rectangle Width="30" Height="15" Fill="{Binding}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBoxItem Content="#1F2937"/>
+                            <!-- Koyu Gri -->
+                            <ComboBoxItem Content="#EF4444"/>
+                            <!-- Kırmızı -->
+                            <ComboBoxItem Content="#F97316"/>
+                            <!-- Turuncu -->
+                            <ComboBoxItem Content="#6366F1"/>
+                            <!-- Indigo -->
+                            <ComboBoxItem Content="#3B82F6"/>
+                            <!-- Mavi -->
+                        </ComboBox>
+
+                        <!-- Etiket Rengi -->
+                        <Separator/>
+                        <TextBlock Text="Etiket:" VerticalAlignment="Center" Margin="5,0" Foreground="#6B7280" FontWeight="SemiBold"/>
+                        <ComboBox Width="70">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Width="14" Height="14" CornerRadius="7" Background="{Binding}" Margin="0,0,5,0"/>
+                                        <TextBlock Text="{Binding}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                            <ComboBoxItem Content="#6366F1"/>
+                            <!-- Indigo -->
+                            <ComboBoxItem Content="#3B82F6"/>
+                            <!-- Mavi -->
+                            <ComboBoxItem Content="#EF4444"/>
+                            <!-- Kırmızı -->
+                            <ComboBoxItem Content="#F97316"/>
+                            <!-- Turuncu -->
+                            <ComboBoxItem Content="#10B981"/>
+                            <!-- Yeşil -->
+                        </ComboBox>
+                    </ToolBar>
+                </Border>
+
+                <!-- Not İçeriği -->
+                <Border Grid.Row="3"
+                        Margin="0,0,0,15"
+                        BorderThickness="1"
+                        BorderBrush="#E5E7EB"
+                        CornerRadius="6"
+                        Background="White">
+                    <RichTextBox BorderThickness="0"
+                                 VerticalScrollBarVisibility="Auto"
+                                 Padding="10">
+                        <FlowDocument>
+                            <Paragraph>
+                                <Run Text="{Binding NewNote.Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Paragraph>
+                        </FlowDocument>
+                    </RichTextBox>
+                </Border>
+
+                <!-- Alt Bilgi ve Butonlar -->
+                <Grid Grid.Row="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Son Güncelleme Bilgisi -->
+                    <TextBlock Grid.Column="0" 
+                               Text="Son güncelleme: 12 Nisan 2025, 15:30" 
+                               Foreground="#6B7280" 
+                               FontSize="12" 
+                               VerticalAlignment="Center"/>
+
+                    <!-- Butonlar -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Content="🧹 Temizle" 
+                                Background="#E5E7EB"
+                                Foreground="#1F2937"
+                                Padding="12,6"
+                                Margin="0,0,10,0"
+                                Cursor="Hand"
+                                BorderThickness="0">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="💾 Kaydet" 
+                                Command="{Binding AddNoteCommand}" 
+                                Background="#3B82F6"
+                                Foreground="White"
+                                Padding="12,6"
+                                FontWeight="Bold"
+                                BorderThickness="0"
+                                Cursor="Hand">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <!-- Sağ Alt Köşe Butonları (Not Yönetimi) -->
     </Grid>
 </UserControl>
