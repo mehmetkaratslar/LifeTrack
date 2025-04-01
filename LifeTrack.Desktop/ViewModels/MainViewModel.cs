@@ -1,66 +1,55 @@
-﻿using LifeTrack.Desktop.Commands;
-using LifeTrack.Desktop.ViewModels;
-using System;
-using System.Windows.Input;
+﻿using LifeTrack.Desktop.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
-public class MainViewModel : ViewModelBase
+namespace LifeTrack.Desktop
 {
-    private ViewModelBase _currentViewModel;
-
-    // ViewModel örnekleri
-    private readonly DashboardViewModel _dashboardViewModel;
-    private readonly ExpenseViewModel _expenseViewModel;
-    private readonly NoteViewModel _noteViewModel;
-    private readonly ReminderViewModel _reminderViewModel;
-    private readonly SettingsViewModel _settingsViewModel;
-
-    public MainViewModel(
-        DashboardViewModel dashboardViewModel,
-        ExpenseViewModel expenseViewModel,
-        NoteViewModel noteViewModel,
-        ReminderViewModel reminderViewModel,
-        SettingsViewModel settingsViewModel)
+    public partial class MainWindow : Window
     {
-        _dashboardViewModel = dashboardViewModel ?? throw new ArgumentNullException(nameof(dashboardViewModel));
-        _expenseViewModel = expenseViewModel ?? throw new ArgumentNullException(nameof(expenseViewModel));
-        _noteViewModel = noteViewModel ?? throw new ArgumentNullException(nameof(noteViewModel));
-        _reminderViewModel = reminderViewModel ?? throw new ArgumentNullException(nameof(reminderViewModel));
-        _settingsViewModel = settingsViewModel ?? throw new ArgumentNullException(nameof(settingsViewModel));
-
-        // Başlangıçta Dashboard göster
-        CurrentViewModel = _dashboardViewModel;
-
-        // Komutları oluştur
-        NavigateToDashboardCommand = new RelayCommand(() => CurrentViewModel = _dashboardViewModel);
-        NavigateToExpensesCommand = new RelayCommand(() => CurrentViewModel = _expenseViewModel);
-        NavigateToNotesCommand = new RelayCommand(() => CurrentViewModel = _noteViewModel);
-        NavigateToRemindersCommand = new RelayCommand(() => CurrentViewModel = _reminderViewModel);
-        NavigateToSettingsCommand = new RelayCommand(() => CurrentViewModel = _settingsViewModel);
-    }
-
-    public void Initialize()
-    {
-        // Alt viewmodelleri başlat
-        (_dashboardViewModel as DashboardViewModel)?.Initialize();
-        (_expenseViewModel as ExpenseViewModel)?.Initialize();
-        (_noteViewModel as NoteViewModel)?.Initialize();
-        (_reminderViewModel as ReminderViewModel)?.Initialize();
-    }
-
-    public ViewModelBase CurrentViewModel
-    {
-        get => _currentViewModel;
-        set
+        public MainWindow(MainViewModel viewModel)
         {
-            SetProperty(ref _currentViewModel, value);
-            // Debug için
-            Console.WriteLine($"CurrentViewModel değişti: {value?.GetType().Name}");
+            InitializeComponent();
+            DataContext = viewModel;
+
+            // Başlangıçta Dashboard'ı göster
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+        }
+
+        private void Dashboard_Click(object sender, RoutedEventArgs e)
+        {
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+        }
+
+        private void Expense_Click(object sender, RoutedEventArgs e)
+        {
+            var expenseView = new Views.ExpenseView();
+            expenseView.DataContext = App.ServiceProvider.GetRequiredService<ExpenseViewModel>();
+            contentPresenter.Content = expenseView;
+        }
+
+        private void Note_Click(object sender, RoutedEventArgs e)
+        {
+            var noteView = new Views.NoteView();
+            noteView.DataContext = App.ServiceProvider.GetRequiredService<NoteViewModel>();
+            contentPresenter.Content = noteView;
+        }
+
+        private void Reminder_Click(object sender, RoutedEventArgs e)
+        {
+            var reminderView = new Views.ReminderView();
+            reminderView.DataContext = App.ServiceProvider.GetRequiredService<ReminderViewModel>();
+            contentPresenter.Content = reminderView;
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsView = new Views.SettingsView();
+            settingsView.DataContext = App.ServiceProvider.GetRequiredService<SettingsViewModel>();
+            contentPresenter.Content = settingsView;
         }
     }
-
-    public ICommand NavigateToDashboardCommand { get; }
-    public ICommand NavigateToExpensesCommand { get; }
-    public ICommand NavigateToNotesCommand { get; }
-    public ICommand NavigateToRemindersCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
 }

@@ -4,7 +4,6 @@ using LifeTrack.Services.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-
 namespace LifeTrack.Desktop
 {
     public partial class App : Application
@@ -24,7 +23,8 @@ namespace LifeTrack.Desktop
                     context.Database.EnsureCreated();
                 }
 
-                var mainWindow = new MainWindow(ServiceProvider.GetRequiredService<MainViewModel>());
+                var viewModel = ServiceProvider.GetRequiredService<MainViewModel>();
+                var mainWindow = new MainWindow(viewModel);
                 mainWindow.Show();
             }
             catch (Exception ex)
@@ -40,13 +40,13 @@ namespace LifeTrack.Desktop
             // DbContext
             services.AddDbContext<LifeTrackDbContext>();
 
-            // Servisler
+            // Servisler - Singleton kullanıyoruz
             services.AddSingleton<ExpenseService>();
             services.AddSingleton<CategoryService>();
             services.AddSingleton<NoteService>();
             services.AddSingleton<ReminderService>();
 
-            // ViewModels - singleton yapalım
+            // ViewModels - Singleton kullanıyoruz
             services.AddSingleton<DashboardViewModel>();
             services.AddSingleton<ExpenseViewModel>();
             services.AddSingleton<NoteViewModel>();

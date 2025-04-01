@@ -1,4 +1,4 @@
-﻿using LifeTrack.Core.Models;
+using LifeTrack.Core.Models;
 using LifeTrack.Desktop.Commands;
 using LifeTrack.Services;
 using System;

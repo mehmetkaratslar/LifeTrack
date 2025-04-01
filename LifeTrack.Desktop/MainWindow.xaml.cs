@@ -1,6 +1,7 @@
 ﻿using LifeTrack.Desktop.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LifeTrack.Desktop
 {
