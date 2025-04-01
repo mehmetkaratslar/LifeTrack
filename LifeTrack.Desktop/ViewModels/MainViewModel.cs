@@ -1,51 +1,55 @@
-﻿using LifeTrack.Desktop.Commands;
-using LifeTrack.Desktop.ViewModels;
-using System.Windows.Input;
+﻿using LifeTrack.Desktop.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using System.Windows;
 
-public class MainViewModel : ViewModelBase
+namespace LifeTrack.Desktop
 {
-    private ViewModelBase _currentViewModel;
-
-    // ViewModel örnekleri
-    private readonly DashboardViewModel _dashboardViewModel;
-    private readonly ExpenseViewModel _expenseViewModel;
-    private readonly NoteViewModel _noteViewModel;
-    private readonly ReminderViewModel _reminderViewModel;
-    private readonly SettingsViewModel _settingsViewModel;
-
-    public MainViewModel(
-        DashboardViewModel dashboardViewModel,
-        ExpenseViewModel expenseViewModel,
-        NoteViewModel noteViewModel,
-        ReminderViewModel reminderViewModel,
-        SettingsViewModel settingsViewModel)
+    public partial class MainWindow : Window
     {
-        _dashboardViewModel = dashboardViewModel;
-        _expenseViewModel = expenseViewModel;
-        _noteViewModel = noteViewModel;
-        _reminderViewModel = reminderViewModel;
-        _settingsViewModel = settingsViewModel;
+        public MainWindow(MainViewModel viewModel)
+        {
+            InitializeComponent();
+            DataContext = viewModel;
 
-        // Başlangıçta Dashboard göster
-        CurrentViewModel = _dashboardViewModel;
+            // Başlangıçta Dashboard'ı göster
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+        }
 
-        // Komutları oluştur
-        NavigateToDashboardCommand = new RelayCommand(() => CurrentViewModel = _dashboardViewModel);
-        NavigateToExpensesCommand = new RelayCommand(() => CurrentViewModel = _expenseViewModel);
-        NavigateToNotesCommand = new RelayCommand(() => CurrentViewModel = _noteViewModel);
-        NavigateToRemindersCommand = new RelayCommand(() => CurrentViewModel = _reminderViewModel);
-        NavigateToSettingsCommand = new RelayCommand(() => CurrentViewModel = _settingsViewModel);
+        private void Dashboard_Click(object sender, RoutedEventArgs e)
+        {
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+        }
+
+        private void Expense_Click(object sender, RoutedEventArgs e)
+        {
+            var expenseView = new Views.ExpenseView();
+            expenseView.DataContext = App.ServiceProvider.GetRequiredService<ExpenseViewModel>();
+            contentPresenter.Content = expenseView;
+        }
+
+        private void Note_Click(object sender, RoutedEventArgs e)
+        {
+            var noteView = new Views.NoteView();
+            noteView.DataContext = App.ServiceProvider.GetRequiredService<NoteViewModel>();
+            contentPresenter.Content = noteView;
+        }
+
+        private void Reminder_Click(object sender, RoutedEventArgs e)
+        {
+            var reminderView = new Views.ReminderView();
+            reminderView.DataContext = App.ServiceProvider.GetRequiredService<ReminderViewModel>();
+            contentPresenter.Content = reminderView;
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsView = new Views.SettingsView();
+            settingsView.DataContext = App.ServiceProvider.GetRequiredService<SettingsViewModel>();
+            contentPresenter.Content = settingsView;
+        }
     }
-
-    public ViewModelBase CurrentViewModel
-    {
-        get => _currentViewModel;
-        set => SetProperty(ref _currentViewModel, value);
-    }
-
-    public ICommand NavigateToDashboardCommand { get; }
-    public ICommand NavigateToExpensesCommand { get; }
-    public ICommand NavigateToNotesCommand { get; }
-    public ICommand NavigateToRemindersCommand { get; }
-    public ICommand NavigateToSettingsCommand { get; }
 }

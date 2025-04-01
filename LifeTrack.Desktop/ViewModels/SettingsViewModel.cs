@@ -20,34 +20,27 @@ namespace LifeTrack.Desktop.ViewModels
             SaveSettingsCommand = new RelayCommand(SaveSettings);
         }
 
+        public void Initialize()
+        {
+            // Ayarları yükle (örnek uygulama için bir şey yapmıyoruz)
+        }
+
         public bool IsDarkTheme
         {
             get => _isDarkTheme;
-            set
-            {
-                _isDarkTheme = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _isDarkTheme, value);
         }
 
         public bool EnableNotifications
         {
             get => _enableNotifications;
-            set
-            {
-                _enableNotifications = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _enableNotifications, value);
         }
 
         public string UserName
         {
             get => _userName;
-            set
-            {
-                _userName = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _userName, value);
         }
 
         public ICommand SaveSettingsCommand { get; }

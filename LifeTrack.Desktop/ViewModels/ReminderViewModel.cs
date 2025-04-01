@@ -1,4 +1,3 @@
-﻿using LifeTrack.Core;
 using LifeTrack.Core.Models;
 using LifeTrack.Desktop.Commands;
 using LifeTrack.Services;
@@ -18,7 +17,7 @@ namespace LifeTrack.Desktop.ViewModels
 
         public ReminderViewModel(ReminderService reminderService)
         {
-            _reminderService = reminderService;
+            _reminderService = reminderService ?? throw new ArgumentNullException(nameof(reminderService));
             NewReminder = new Reminder { CreatedAt = DateTime.Now, DueDate = DateTime.Now.AddDays(1) };
 
             LoadRemindersCommand = new RelayCommand(async () => await LoadReminders());
@@ -26,42 +25,30 @@ namespace LifeTrack.Desktop.ViewModels
             UpdateReminderCommand = new RelayCommand(async () => await UpdateReminder(), () => SelectedReminder != null);
             DeleteReminderCommand = new RelayCommand(async () => await DeleteReminder(), () => SelectedReminder != null);
             CompleteReminderCommand = new RelayCommand(async () => await CompleteReminder(), () => SelectedReminder != null);
-
-            LoadReminders();
         }
 
-        public ReminderViewModel()
+        public void Initialize()
         {
+            // Başlangıçta verileri yükle
+            LoadReminders();
         }
 
         public ObservableCollection<Reminder> Reminders
         {
             get => _reminders;
-            set
-            {
-                _reminders = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _reminders, value);
         }
 
         public Reminder SelectedReminder
         {
             get => _selectedReminder;
-            set
-            {
-                _selectedReminder = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _selectedReminder, value);
         }
 
         public Reminder NewReminder
         {
             get => _newReminder;
-            set
-            {
-                _newReminder = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _newReminder, value);
         }
 
         public ICommand LoadRemindersCommand { get; }
@@ -72,8 +59,16 @@ namespace LifeTrack.Desktop.ViewModels
 
         private async Task LoadReminders()
         {
-            var reminders = await _reminderService.GetAllAsync();
-            Reminders = new ObservableCollection<Reminder>(reminders);
+            try
+            {
+                var reminders = await _reminderService.GetAllAsync();
+                Reminders = new ObservableCollection<Reminder>(reminders);
+            }
+            catch (Exception ex)
+            {
+                // Hata işleme burada yapılabilir
+                Console.WriteLine($"Hatırlatıcıları yüklerken hata: {ex.Message}");
+            }
         }
 
         private async Task AddReminder()

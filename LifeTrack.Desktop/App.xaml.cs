@@ -4,7 +4,6 @@ using LifeTrack.Services.Data;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-
 namespace LifeTrack.Desktop
 {
     public partial class App : Application
@@ -17,7 +16,6 @@ namespace LifeTrack.Desktop
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
-            // Veritabanını oluştur/güncelle
             try
             {
                 using (var context = ServiceProvider.GetRequiredService<LifeTrackDbContext>())
@@ -25,7 +23,6 @@ namespace LifeTrack.Desktop
                     context.Database.EnsureCreated();
                 }
 
-                // Ana pencereyi doğrudan oluştur
                 var viewModel = ServiceProvider.GetRequiredService<MainViewModel>();
                 var mainWindow = new MainWindow(viewModel);
                 mainWindow.Show();
@@ -38,28 +35,24 @@ namespace LifeTrack.Desktop
             base.OnStartup(e);
         }
 
-
         private void ConfigureServices(IServiceCollection services)
         {
             // DbContext
             services.AddDbContext<LifeTrackDbContext>();
 
-            // Servisler
-            services.AddTransient<ExpenseService>();
-            services.AddTransient<CategoryService>();
-            services.AddTransient<NoteService>();
-            services.AddTransient<ReminderService>();
+            // Servisler - Singleton kullanıyoruz
+            services.AddSingleton<ExpenseService>();
+            services.AddSingleton<CategoryService>();
+            services.AddSingleton<NoteService>();
+            services.AddSingleton<ReminderService>();
 
-            // ViewModels
-            services.AddTransient<DashboardViewModel>();
-            services.AddTransient<ExpenseViewModel>();
-            services.AddTransient<NoteViewModel>();
-            services.AddTransient<ReminderViewModel>();
-            services.AddTransient<SettingsViewModel>();
-            services.AddTransient<MainViewModel>();
-
-            // MainWindow özel factory ile kaydediliyor
-            services.AddTransient(provider => new MainWindow(provider.GetRequiredService<MainViewModel>()));
+            // ViewModels - Singleton kullanıyoruz
+            services.AddSingleton<DashboardViewModel>();
+            services.AddSingleton<ExpenseViewModel>();
+            services.AddSingleton<NoteViewModel>();
+            services.AddSingleton<ReminderViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<MainViewModel>();
         }
     }
 }

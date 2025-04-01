@@ -1,4 +1,3 @@
-﻿using LifeTrack.Core;
 using LifeTrack.Core.Models;
 using LifeTrack.Desktop.Commands;
 using LifeTrack.Services;
@@ -18,46 +17,37 @@ namespace LifeTrack.Desktop.ViewModels
 
         public ExpenseViewModel(ExpenseService expenseService)
         {
-            _expenseService = expenseService;
+            _expenseService = expenseService ?? throw new ArgumentNullException(nameof(expenseService));
             NewExpense = new Expense { Date = DateTime.Now };
+
             LoadExpensesCommand = new RelayCommand(async () => await LoadExpenses());
             AddExpenseCommand = new RelayCommand(async () => await AddExpense());
             UpdateExpenseCommand = new RelayCommand(async () => await UpdateExpense(), () => SelectedExpense != null);
             DeleteExpenseCommand = new RelayCommand(async () => await DeleteExpense(), () => SelectedExpense != null);
         }
 
-        public ExpenseViewModel()
+        public void Initialize()
         {
+            // Başlangıçta verileri yükle
+            LoadExpenses();
         }
 
         public ObservableCollection<Expense> Expenses
         {
             get => _expenses;
-            set
-            {
-                _expenses = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _expenses, value);
         }
 
         public Expense SelectedExpense
         {
             get => _selectedExpense;
-            set
-            {
-                _selectedExpense = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _selectedExpense, value);
         }
 
         public Expense NewExpense
         {
             get => _newExpense;
-            set
-            {
-                _newExpense = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _newExpense, value);
         }
 
         public ICommand LoadExpensesCommand { get; }
@@ -67,13 +57,21 @@ namespace LifeTrack.Desktop.ViewModels
 
         private async Task LoadExpenses()
         {
-            var expenses = await _expenseService.GetAllAsync();
-            Expenses = new ObservableCollection<Expense>(expenses);
+            try
+            {
+                var expenses = await _expenseService.GetAllAsync();
+                Expenses = new ObservableCollection<Expense>(expenses);
+            }
+            catch (Exception ex)
+            {
+                // Hata işleme burada yapılabilir
+                Console.WriteLine($"Giderleri yüklerken hata: {ex.Message}");
+            }
         }
 
         private async Task AddExpense()
         {
-            if (NewExpense.Amount <= 0 || string.IsNullOrWhiteSpace(NewExpense.Description))
+            if (NewExpense.Amount <= 0 || string.IsNullOrWhiteSpace(NewExpense.Title))
                 return;
 
             await _expenseService.AddAsync(NewExpense);

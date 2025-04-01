@@ -1,4 +1,3 @@
-﻿using LifeTrack.Core;
 using LifeTrack.Core.Models;
 using LifeTrack.Desktop.Commands;
 using LifeTrack.Services;
@@ -18,49 +17,37 @@ namespace LifeTrack.Desktop.ViewModels
 
         public NoteViewModel(NoteService noteService)
         {
-            _noteService = noteService;
+            _noteService = noteService ?? throw new ArgumentNullException(nameof(noteService));
             NewNote = new Note { CreatedAt = DateTime.Now };
 
             LoadNotesCommand = new RelayCommand(async () => await LoadNotes());
             AddNoteCommand = new RelayCommand(async () => await AddNote());
             UpdateNoteCommand = new RelayCommand(async () => await UpdateNote(), () => SelectedNote != null);
             DeleteNoteCommand = new RelayCommand(async () => await DeleteNote(), () => SelectedNote != null);
-
-            LoadNotes();
         }
 
-        public NoteViewModel()
+        public void Initialize()
         {
+            // Başlangıçta verileri yükle
+            LoadNotes();
         }
 
         public ObservableCollection<Note> Notes
         {
             get => _notes;
-            set
-            {
-                _notes = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _notes, value);
         }
 
         public Note SelectedNote
         {
             get => _selectedNote;
-            set
-            {
-                _selectedNote = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _selectedNote, value);
         }
 
         public Note NewNote
         {
             get => _newNote;
-            set
-            {
-                _newNote = value;
-                OnPropertyChanged();
-            }
+            set => SetProperty(ref _newNote, value);
         }
 
         public ICommand LoadNotesCommand { get; }
@@ -70,8 +57,16 @@ namespace LifeTrack.Desktop.ViewModels
 
         private async Task LoadNotes()
         {
-            var notes = await _noteService.GetAllAsync();
-            Notes = new ObservableCollection<Note>(notes);
+            try
+            {
+                var notes = await _noteService.GetAllAsync();
+                Notes = new ObservableCollection<Note>(notes);
+            }
+            catch (Exception ex)
+            {
+                // Hata işleme burada yapılabilir
+                Console.WriteLine($"Notları yüklerken hata: {ex.Message}");
+            }
         }
 
         private async Task AddNote()

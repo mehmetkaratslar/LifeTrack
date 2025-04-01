@@ -1,4 +1,7 @@
-﻿namespace LifeTrack.Desktop.ViewModels
+using System;
+using System.Threading.Tasks;
+
+namespace LifeTrack.Desktop.ViewModels
 {
     public class DashboardViewModel : ViewModelBase
     {
@@ -9,6 +12,21 @@
         public DashboardViewModel()
         {
             // Demo verisi
+            MonthlyTotal = 1250.00m;
+            ReminderCount = 3;
+            NoteCount = 5;
+        }
+
+        public void Initialize()
+        {
+            // Verileri yükleyen metodu çağır
+            LoadDashboardData();
+        }
+
+        private void LoadDashboardData()
+        {
+            // Gerçek verileri yüklemek için burada servis çağrıları yapabilirsiniz
+            // Şimdilik demo verileri kullanıyoruz
             MonthlyTotal = 1250.00m;
             ReminderCount = 3;
             NoteCount = 5;

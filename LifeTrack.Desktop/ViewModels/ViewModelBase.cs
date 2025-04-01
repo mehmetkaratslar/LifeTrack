@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace LifeTrack.Desktop.ViewModels
@@ -19,6 +20,10 @@ namespace LifeTrack.Desktop.ViewModels
 
             storage = value;
             OnPropertyChanged(propertyName);
+
+            // Debug için
+            Console.WriteLine($"Property değişti: {propertyName}, Yeni değer: {value}");
+
             return true;
         }
     }

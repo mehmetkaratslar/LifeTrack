@@ -1,6 +1,7 @@
 ﻿using LifeTrack.Desktop.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace LifeTrack.Desktop
 {
@@ -9,42 +10,47 @@ namespace LifeTrack.Desktop
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-
-            // Debug için
-            if (viewModel != null)
-            {
-                MessageBox.Show("ViewModel başarıyla enjekte edildi!");
-
-                // Komutları kontrol et
-                if (viewModel.NavigateToDashboardCommand != null)
-                    MessageBox.Show("Dashboard komutu mevcut");
-                else
-                    MessageBox.Show("Dashboard komutu NULL!");
-            }
-            else
-            {
-                MessageBox.Show("ViewModel NULL!");
-            }
-
             DataContext = viewModel;
 
-
+            // Başlangıçta Dashboard'ı göster
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is MainViewModel viewModel)
-            {
-                viewModel.CurrentViewModel = App.ServiceProvider.GetService<DashboardViewModel>();
-            }
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
         }
 
         private void Expense_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is MainViewModel viewModel)
-            {
-                viewModel.CurrentViewModel = App.ServiceProvider.GetService<ExpenseViewModel>();
-            }
+            var expenseView = new Views.ExpenseView();
+            expenseView.DataContext = App.ServiceProvider.GetRequiredService<ExpenseViewModel>();
+            contentPresenter.Content = expenseView;
+        }
+
+        private void Note_Click(object sender, RoutedEventArgs e)
+        {
+            var noteView = new Views.NoteView();
+            noteView.DataContext = App.ServiceProvider.GetRequiredService<NoteViewModel>();
+            contentPresenter.Content = noteView;
+        }
+
+        private void Reminder_Click(object sender, RoutedEventArgs e)
+        {
+            var reminderView = new Views.ReminderView();
+            reminderView.DataContext = App.ServiceProvider.GetRequiredService<ReminderViewModel>();
+            contentPresenter.Content = reminderView;
+        }
+
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            var settingsView = new Views.SettingsView();
+            settingsView.DataContext = App.ServiceProvider.GetRequiredService<SettingsViewModel>();
+            contentPresenter.Content = settingsView;
         }
     }
 }

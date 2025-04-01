@@ -13,7 +13,6 @@
             <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-
         <!-- Sol Menü Paneli -->
         <Border Background="#2E3A47" Grid.Column="0">
             <StackPanel>
@@ -21,54 +20,50 @@
                            FontSize="26" FontWeight="Bold" 
                            Margin="20,30,0,40" />
 
-                <RadioButton GroupName="NavButtons" 
-             Content="Ana Sayfa" IsChecked="True"
-               Click="Dashboard_Click"
-             Command="{Binding NavigateToDashboardCommand}"
-             Style="{DynamicResource MenuButtonStyle}" />
+                <!-- Butonları ekleyelim -->
+                <Button Content="Ana Sayfa" 
+                        Click="Dashboard_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
 
-                <RadioButton GroupName="NavButtons" 
-             Content="Gider Takibi"
-             Command="{Binding NavigateToExpensesCommand}"
-             Style="{DynamicResource MenuButtonStyle}" />
+                <Button Content="Gider Takibi" 
+                        Click="Expense_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
 
-                <RadioButton GroupName="NavButtons" 
-             Content="AI Asistan"
-             Command="{Binding NavigateToRemindersCommand}"
-             Style="{DynamicResource MenuButtonStyle}" />
+                <Button Content="AI Asistan" 
+                        Click="Reminder_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
 
-                <RadioButton GroupName="NavButtons" 
-             Content="Notlar"
-             Command="{Binding NavigateToNotesCommand}"
-             Style="{DynamicResource MenuButtonStyle}" />
+                <Button Content="Notlar" 
+                        Click="Note_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
 
-                <RadioButton GroupName="NavButtons" 
-             Content="Ayarlar"
-             Command="{Binding NavigateToSettingsCommand}"
-             Style="{DynamicResource MenuButtonStyle}" />
+                <Button Content="Ayarlar" 
+                        Click="Settings_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
             </StackPanel>
-
-
         </Border>
 
-        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
-                    <views:DashboardView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewModels:ExpenseViewModel}">
-                    <views:ExpenseView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewModels:NoteViewModel}">
-                    <views:NoteView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewModels:ReminderViewModel}">
-                    <views:ReminderView />
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewModels:SettingsViewModel}">
-                    <views:SettingsView />
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
+        <!-- ContentPresenter kullanarak içeriği doğrudan değiştirelim -->
+        <ContentPresenter x:Name="contentPresenter" Grid.Column="1" />
     </Grid>
 </Window>
