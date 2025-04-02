@@ -43,7 +43,10 @@ namespace LifeTrack.Desktop.ViewModels
             ShowPrivacyCommand = new RelayCommand(OnShowPrivacy);
         }
 
+<<<<<<< HEAD
         // (İsteğe bağlı) Initialize metodu
+=======
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         public void Initialize()
         {
             // Ayarlar ekranı açıldığında yapılacak işler
@@ -102,6 +105,7 @@ namespace LifeTrack.Desktop.ViewModels
 
         public string Email
         {
+<<<<<<< HEAD
             get => _email;
             set => SetProperty(ref _email, value);
         }
@@ -142,6 +146,10 @@ namespace LifeTrack.Desktop.ViewModels
                     IsGreenTheme = false;
                 }
             }
+=======
+            get => _userName;
+            set => SetProperty(ref _userName, value);
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
 
         public bool IsPurpleTheme

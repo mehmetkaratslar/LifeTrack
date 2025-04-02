@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 ﻿using System;
+=======
+using LifeTrack.Core.Models;
+using LifeTrack.Desktop.Commands;
+using LifeTrack.Services;
+using System;
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -33,6 +40,7 @@ namespace LifeTrack.Desktop.ViewModels
         private bool _isMonthlyChartSelected = true;
         private bool _isCategoryChartSelected;
 
+<<<<<<< HEAD
         // Grafik verileri
         public SeriesCollection MonthlyExpenseSeries { get; set; }
         public SeriesCollection CategoryExpenseSeries { get; set; }
@@ -76,21 +84,59 @@ namespace LifeTrack.Desktop.ViewModels
         }
 
         public ObservableCollection<Category> Categories { get; private set; }
-
-        public Expense NewExpense
+=======
+        public ExpenseViewModel(ExpenseService expenseService)
         {
-            get => _newExpense;
-            set
-            {
-                _newExpense = value;
-                OnPropertyChanged();
-            }
+            _expenseService = expenseService ?? throw new ArgumentNullException(nameof(expenseService));
+            NewExpense = new Expense { Date = DateTime.Now };
+
+            LoadExpensesCommand = new RelayCommand(async () => await LoadExpenses());
+            AddExpenseCommand = new RelayCommand(async () => await AddExpense());
+            UpdateExpenseCommand = new RelayCommand(async () => await UpdateExpense(), () => SelectedExpense != null);
+            DeleteExpenseCommand = new RelayCommand(async () => await DeleteExpense(), () => SelectedExpense != null);
+        }
+
+        public void Initialize()
+        {
+            // Başlangıçta verileri yükle
+            LoadExpenses();
+        }
+
+        public ObservableCollection<Expense> Expenses
+        {
+            get => _expenses;
+            set => SetProperty(ref _expenses, value);
         }
 
         public Expense SelectedExpense
         {
             get => _selectedExpense;
+            set => SetProperty(ref _selectedExpense, value);
+        }
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
+
+        public Expense NewExpense
+        {
+            get => _newExpense;
+<<<<<<< HEAD
             set
+            {
+                _newExpense = value;
+                OnPropertyChanged();
+            }
+=======
+            set => SetProperty(ref _newExpense, value);
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
+        }
+
+        public Expense SelectedExpense
+        {
+<<<<<<< HEAD
+            get => _selectedExpense;
+            set
+=======
+            try
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
             {
                 _selectedExpense = value;
                 OnPropertyChanged();
@@ -114,12 +160,21 @@ namespace LifeTrack.Desktop.ViewModels
 
         public Category FilterCategory
         {
+<<<<<<< HEAD
             get => _filterCategory;
             set
             {
                 _filterCategory = value;
                 OnPropertyChanged();
             }
+=======
+            if (NewExpense.Amount <= 0 || string.IsNullOrWhiteSpace(NewExpense.Title))
+                return;
+
+            await _expenseService.AddAsync(NewExpense);
+            NewExpense = new Expense { Date = DateTime.Now };
+            await LoadExpenses();
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
 
         public DateTime StartDate

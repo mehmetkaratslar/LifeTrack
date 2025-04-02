@@ -18,6 +18,7 @@ namespace LifeTrack.Desktop
         {
             InitializeComponent();
             DataContext = viewModel;
+<<<<<<< HEAD
 
             // View'ları önceden oluştur
             _dashboardView = new Views.DashboardView();
@@ -35,11 +36,31 @@ namespace LifeTrack.Desktop
 
             // Başlangıçta Dashboard'ı göster
             contentPresenter.Content = _dashboardView;
+=======
+
+            // Başlangıçta Dashboard'ı göster
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
 
         private void Dashboard_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             contentPresenter.Content = _dashboardView;
+=======
+            var dashboardView = new Views.DashboardView();
+            dashboardView.DataContext = App.ServiceProvider.GetRequiredService<DashboardViewModel>();
+            contentPresenter.Content = dashboardView;
+        }
+
+        private void Expense_Click(object sender, RoutedEventArgs e)
+        {
+            var expenseView = new Views.ExpenseView();
+            expenseView.DataContext = App.ServiceProvider.GetRequiredService<ExpenseViewModel>();
+            contentPresenter.Content = expenseView;
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
 
         private void Note_Click(object sender, RoutedEventArgs e)
@@ -59,7 +80,13 @@ namespace LifeTrack.Desktop
 
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
+<<<<<<< HEAD
             contentPresenter.Content = _settingsView;
+=======
+            var settingsView = new Views.SettingsView();
+            settingsView.DataContext = App.ServiceProvider.GetRequiredService<SettingsViewModel>();
+            contentPresenter.Content = settingsView;
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
     }
 }

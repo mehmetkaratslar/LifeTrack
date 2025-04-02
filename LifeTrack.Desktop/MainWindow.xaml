@@ -16,7 +16,10 @@
             <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         <!-- Sol Menü Paneli -->
         <Border Background="#2E3A47" Grid.Column="0">
             <Grid>
@@ -26,6 +29,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
+<<<<<<< HEAD
                 <!-- Uygulama Başlığı -->
                 <StackPanel Grid.Row="0">
                     <TextBlock Text="LifeTrack AI" Foreground="White" 
@@ -82,5 +86,52 @@
         <Border Grid.Column="1" Background="#F5F7FA">
             <ContentControl x:Name="contentPresenter" Grid.Column="1" />
         </Border>
+=======
+                <!-- Butonları ekleyelim -->
+                <Button Content="Ana Sayfa" 
+                        Click="Dashboard_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="Gider Takibi" 
+                        Click="Expense_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="AI Asistan" 
+                        Click="Reminder_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="Notlar" 
+                        Click="Note_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
+
+                <Button Content="Ayarlar" 
+                        Click="Settings_Click"
+                        Background="#2E3A47" Foreground="White" 
+                        BorderThickness="0" Height="45" 
+                        HorizontalContentAlignment="Left" 
+                        Padding="20,0,0,0" 
+                        HorizontalAlignment="Stretch" />
+            </StackPanel>
+        </Border>
+
+        <!-- ContentPresenter kullanarak içeriği doğrudan değiştirelim -->
+        <ContentPresenter x:Name="contentPresenter" Grid.Column="1" />
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
     </Grid>
 </Window>

@@ -6,7 +6,6 @@ using LifeTrack.Services.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-
 namespace LifeTrack.Desktop
 {
     public partial class App : Application
@@ -43,6 +42,7 @@ namespace LifeTrack.Desktop
             // DbContext
             services.AddDbContext<LifeTrackDbContext>();
 
+<<<<<<< HEAD
             // Servisler
             services.AddScoped<IRepository<Expense>, ExpenseService>();
             services.AddScoped<ICategoryService, CategoryService>();
@@ -56,6 +56,21 @@ namespace LifeTrack.Desktop
             services.AddScoped<ReminderViewModel>();
             services.AddScoped<SettingsViewModel>();
             services.AddScoped<MainViewModel>();
+=======
+            // Servisler - Singleton kullanıyoruz
+            services.AddSingleton<ExpenseService>();
+            services.AddSingleton<CategoryService>();
+            services.AddSingleton<NoteService>();
+            services.AddSingleton<ReminderService>();
+
+            // ViewModels - Singleton kullanıyoruz
+            services.AddSingleton<DashboardViewModel>();
+            services.AddSingleton<ExpenseViewModel>();
+            services.AddSingleton<NoteViewModel>();
+            services.AddSingleton<ReminderViewModel>();
+            services.AddSingleton<SettingsViewModel>();
+            services.AddSingleton<MainViewModel>();
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
     }
 }
