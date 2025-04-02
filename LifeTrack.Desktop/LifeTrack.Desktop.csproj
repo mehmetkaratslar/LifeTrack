@@ -8,6 +8,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="LiveCharts" Version="0.9.7" />
+	  <PackageReference Include="LiveCharts.WinForms" Version="0.9.7.1" />
+	  <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+	  <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
+	  <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+	  <PackageReference Include="MaterialDesignThemes.MahApps" Version="5.2.1" />
 	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
 	</ItemGroup>
 

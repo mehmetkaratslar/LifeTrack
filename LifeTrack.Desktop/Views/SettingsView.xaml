@@ -5,137 +5,569 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:LifeTrack.Desktop.Views"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="800">
-	<Grid Margin="30">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+             d:DesignHeight="700" d:DesignWidth="800"
+             Background="#FDFDFD">
+    <UserControl.Resources>
+        <DropShadowEffect x:Key="CardShadow" ShadowDepth="1" BlurRadius="10" Opacity="0.2" Color="#000000"/>
+    </UserControl.Resources>
 
-		<!-- Başlık -->
-		<TextBlock Grid.Row="0" Text="Uygulama Ayarları"
-                   FontSize="24" FontWeight="Bold" Margin="0,0,0,30" />
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="30">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-		<!-- Kullanıcı Adı Ayarı -->
-		<Grid Grid.Row="1" Margin="0,0,0,20">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="200" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+            <!-- Başlık -->
+            <TextBlock Grid.Row="0" Text="⚙️ Uygulama Ayarları"
+                       FontSize="28" FontWeight="SemiBold" Foreground="#1F2937" Margin="0,0,0,30" />
 
-			<TextBlock Grid.Column="0" Text="Kullanıcı Adı:"
-                       VerticalAlignment="Center" FontSize="16" />
+            <!-- Profil Ayarları Paneli -->
+            <Border Grid.Row="1" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-			<TextBox Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
-                     Padding="8,5" MaxWidth="300" HorizontalAlignment="Left" Width="250" />
-		</Grid>
+                    <!-- Panel Başlığı -->
+                    <TextBlock Grid.Row="0" 
+                               Text="👤 Profil Ayarları" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
 
-		<!-- Tema Ayarı -->
-		<Grid Grid.Row="2" Margin="0,0,0,20">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="200" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+                    <!-- Kullanıcı Adı Ayarı -->
+                    <Grid Grid.Row="1" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-			<TextBlock Grid.Column="0" Text="Karanlık Tema:"
-                       VerticalAlignment="Center" FontSize="16" />
+                        <TextBlock Grid.Column="0" 
+                                   Text="Kullanıcı Adı:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
 
-			<ToggleButton Grid.Column="1" IsChecked="{Binding IsDarkTheme}"
-                          Width="80" Height="30" HorizontalAlignment="Left">
-				<ToggleButton.Template>
-					<ControlTemplate TargetType="ToggleButton">
-						<Border x:Name="border" Background="#EEEEEE" CornerRadius="15"
-                                BorderThickness="1" BorderBrush="#CCCCCC">
-							<Grid>
-								<Ellipse x:Name="indicator" Width="20" Height="20" HorizontalAlignment="Left"
-                                         Fill="White" Margin="5,0,0,0" />
-								<TextBlock x:Name="stateText" Text="KAPALI" FontSize="12"
-                                           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="True">
-								<Setter TargetName="border" Property="Background" Value="#2196F3" />
-								<Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
-								<Setter TargetName="indicator" Property="Margin" Value="0,0,5,0" />
-								<Setter TargetName="stateText" Property="Text" Value="AÇIK" />
-								<Setter TargetName="stateText" Property="HorizontalAlignment" Value="Left" />
-								<Setter TargetName="stateText" Property="Margin" Value="8,0,0,0" />
-								<Setter TargetName="stateText" Property="Foreground" Value="White" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</ToggleButton.Template>
-			</ToggleButton>
-		</Grid>
+                        <Border Grid.Column="1" 
+                                BorderThickness="1" 
+                                BorderBrush="#E5E7EB" 
+                                CornerRadius="6" 
+                                MaxWidth="300" 
+                                HorizontalAlignment="Left">
+                            <TextBox Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}"
+                                     Padding="10,8" 
+                                     BorderThickness="0" 
+                                     Width="250" />
+                        </Border>
+                    </Grid>
 
-		<!-- Bildirim Ayarı -->
-		<Grid Grid.Row="3" Margin="0,0,0,20">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="200" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
+                    <!-- E-posta Ayarı -->
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
 
-			<TextBlock Grid.Column="0" Text="Bildirimleri Göster:"
-                       VerticalAlignment="Center" FontSize="16" />
+                        <TextBlock Grid.Column="0" 
+                                   Text="E-posta:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
 
-			<ToggleButton Grid.Column="1" IsChecked="{Binding EnableNotifications}"
-                          Width="80" Height="30" HorizontalAlignment="Left">
-				<ToggleButton.Template>
-					<ControlTemplate TargetType="ToggleButton">
-						<Border x:Name="border" Background="#EEEEEE" CornerRadius="15"
-                                BorderThickness="1" BorderBrush="#CCCCCC">
-							<Grid>
-								<Ellipse x:Name="indicator" Width="20" Height="20" HorizontalAlignment="Left"
-                                         Fill="White" Margin="5,0,0,0" />
-								<TextBlock x:Name="stateText" Text="KAPALI" FontSize="12"
-                                           VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,8,0" />
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsChecked" Value="True">
-								<Setter TargetName="border" Property="Background" Value="#2196F3" />
-								<Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
-								<Setter TargetName="indicator" Property="Margin" Value="0,0,5,0" />
-								<Setter TargetName="stateText" Property="Text" Value="AÇIK" />
-								<Setter TargetName="stateText" Property="HorizontalAlignment" Value="Left" />
-								<Setter TargetName="stateText" Property="Margin" Value="8,0,0,0" />
-								<Setter TargetName="stateText" Property="Foreground" Value="White" />
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</ToggleButton.Template>
-			</ToggleButton>
-		</Grid>
+                        <Border Grid.Column="1" 
+                                BorderThickness="1" 
+                                BorderBrush="#E5E7EB" 
+                                CornerRadius="6" 
+                                MaxWidth="300" 
+                                HorizontalAlignment="Left">
+                            <TextBox Text="{Binding Email, UpdateSourceTrigger=PropertyChanged}"
+                                     Padding="10,8" 
+                                     BorderThickness="0" 
+                                     Width="250" />
+                        </Border>
+                    </Grid>
+                </Grid>
+            </Border>
 
-		<!-- Hakkında Bölümü -->
-		<Border Grid.Row="4" Background="#F5F5F5" Padding="20" CornerRadius="5" Margin="0,20,0,0">
-			<StackPanel>
-				<TextBlock Text="LifeTrack AI Hakkında" FontWeight="Bold" FontSize="16" Margin="0,0,0,10" />
-				<TextBlock TextWrapping="Wrap">
-					LifeTrack AI, günlük yaşamınızı düzenlemenize yardımcı olan kapsamlı bir kişisel asistan uygulamasıdır.
-					Gider takibi, not alma, hatırlatıcılar ve yapay zeka asistanı özelliklerine sahiptir.
-					<LineBreak /><LineBreak />
-					Sürüm: 1.0.0
-					<LineBreak />
-					© 2025 LifeTrack AI
-				</TextBlock>
-			</StackPanel>
-		</Border>
+            <!-- Görünüm Ayarları Paneli -->
+            <Border Grid.Row="2" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
-		<!-- Kaydet Butonu -->
-		<Button Grid.Row="5" Content="Ayarları Kaydet" Command="{Binding SaveSettingsCommand}"
-                Margin="0,20,0,0" Padding="15,8" HorizontalAlignment="Right"
-                Background="#4CAF50" Foreground="White" BorderThickness="0">
-			<Button.Resources>
-				<Style TargetType="Border">
-					<Setter Property="CornerRadius" Value="4"/>
-				</Style>
-			</Button.Resources>
-		</Button>
-	</Grid>
+                    <!-- Panel Başlığı -->
+                    <TextBlock Grid.Row="0" 
+                               Text="🎨 Görünüm Ayarları" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
+
+                    <!-- Tema Ayarı -->
+                    <Grid Grid.Row="1" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Karanlık Tema:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ToggleButton Grid.Column="1" 
+                                      IsChecked="{Binding IsDarkTheme}" 
+                                      Width="50" 
+                                      Height="24" 
+                                      HorizontalAlignment="Left">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="border" 
+                                            Background="#E5E7EB" 
+                                            CornerRadius="12" 
+                                            BorderThickness="0">
+                                        <Ellipse x:Name="indicator" 
+                                                 Width="18" 
+                                                 Height="18" 
+                                                 HorizontalAlignment="Left" 
+                                                 Fill="White" 
+                                                 Margin="3,0,0,0" 
+                                                 VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#3B82F6" />
+                                            <Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+                                            <Setter TargetName="indicator" Property="Margin" Value="0,0,3,0" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                    </Grid>
+
+                    <!-- Yazı Tipi Boyutu Ayarı -->
+                    <Grid Grid.Row="2" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Yazı Tipi Boyutu:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ComboBox Grid.Column="1" 
+                                  SelectedIndex="{Binding FontSizeIndex}" 
+                                  Width="150" 
+                                  HorizontalAlignment="Left"
+                                  Padding="8,5"
+                                  BorderThickness="1"
+                                  BorderBrush="#E5E7EB">
+                            <ComboBoxItem Content="Küçük" />
+                            <ComboBoxItem Content="Normal" />
+                            <ComboBoxItem Content="Büyük" />
+                            <ComboBoxItem Content="Çok Büyük" />
+                        </ComboBox>
+                    </Grid>
+
+                    <!-- Renk Teması Ayarı -->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Renk Teması:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal">
+                            <RadioButton Content="İndigo" 
+                                         IsChecked="{Binding IsIndigoTheme}" 
+                                         Margin="0,0,15,0"
+                                         VerticalAlignment="Center"/>
+                            <RadioButton Content="Mor" 
+                                         IsChecked="{Binding IsPurpleTheme}" 
+                                         Margin="0,0,15,0"
+                                         VerticalAlignment="Center"/>
+                            <RadioButton Content="Mavi" 
+                                         IsChecked="{Binding IsBlueTheme}" 
+                                         Margin="0,0,15,0"
+                                         VerticalAlignment="Center"/>
+                            <RadioButton Content="Yeşil" 
+                                         IsChecked="{Binding IsGreenTheme}"
+                                         VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Bildirim Ayarları Paneli -->
+            <Border Grid.Row="3" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Panel Başlığı -->
+                    <TextBlock Grid.Row="0" 
+                               Text="🔔 Bildirim Ayarları" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
+
+                    <!-- Bildirimleri Göster Ayarı -->
+                    <Grid Grid.Row="1" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Bildirimleri Göster:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ToggleButton Grid.Column="1" 
+                                      IsChecked="{Binding EnableNotifications}" 
+                                      Width="50" 
+                                      Height="24" 
+                                      HorizontalAlignment="Left">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="border" 
+                                            Background="#E5E7EB" 
+                                            CornerRadius="12" 
+                                            BorderThickness="0">
+                                        <Ellipse x:Name="indicator" 
+                                                 Width="18" 
+                                                 Height="18" 
+                                                 HorizontalAlignment="Left" 
+                                                 Fill="White" 
+                                                 Margin="3,0,0,0" 
+                                                 VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#3B82F6" />
+                                            <Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+                                            <Setter TargetName="indicator" Property="Margin" Value="0,0,3,0" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                    </Grid>
+
+                    <!-- Hatırlatıcı Bildirimleri Ayarı -->
+                    <Grid Grid.Row="2" Margin="0,0,0,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Hatırlatıcı Bildirimleri:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ToggleButton Grid.Column="1" 
+                                      IsChecked="{Binding EnableReminderNotifications}" 
+                                      Width="50" 
+                                      Height="24" 
+                                      HorizontalAlignment="Left">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="border" 
+                                            Background="#E5E7EB" 
+                                            CornerRadius="12" 
+                                            BorderThickness="0">
+                                        <Ellipse x:Name="indicator" 
+                                                 Width="18" 
+                                                 Height="18" 
+                                                 HorizontalAlignment="Left" 
+                                                 Fill="White" 
+                                                 Margin="3,0,0,0" 
+                                                 VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#3B82F6" />
+                                            <Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+                                            <Setter TargetName="indicator" Property="Margin" Value="0,0,3,0" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                    </Grid>
+
+                    <!-- Ses Bildirimleri Ayarı -->
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Ses Bildirimleri:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ToggleButton Grid.Column="1" 
+                                      IsChecked="{Binding EnableSoundNotifications}" 
+                                      Width="50" 
+                                      Height="24" 
+                                      HorizontalAlignment="Left">
+                            <ToggleButton.Template>
+                                <ControlTemplate TargetType="ToggleButton">
+                                    <Border x:Name="border" 
+                                            Background="#E5E7EB" 
+                                            CornerRadius="12" 
+                                            BorderThickness="0">
+                                        <Ellipse x:Name="indicator" 
+                                                 Width="18" 
+                                                 Height="18" 
+                                                 HorizontalAlignment="Left" 
+                                                 Fill="White" 
+                                                 Margin="3,0,0,0" 
+                                                 VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsChecked" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#3B82F6" />
+                                            <Setter TargetName="indicator" Property="HorizontalAlignment" Value="Right" />
+                                            <Setter TargetName="indicator" Property="Margin" Value="0,0,3,0" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </ToggleButton.Template>
+                        </ToggleButton>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Veri Yedekleme Paneli -->
+            <Border Grid.Row="4" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Panel Başlığı -->
+                    <TextBlock Grid.Row="0" 
+                               Text="💾 Veri Yönetimi" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
+
+                    <!-- Bilgi Notu -->
+                    <TextBlock Grid.Row="1" 
+                               Text="Verilerinizi yedekleyebilir ve geri yükleyebilirsiniz. Bu işlemler tüm notlarınızı, giderlerinizi ve hatırlatıcılarınızı içerir."
+                               TextWrapping="Wrap"
+                               Foreground="#4B5563"
+                               Margin="0,0,0,15" />
+
+                    <!-- Yedekleme Butonları -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button Content="🔄 Veri Yedekle" 
+                                Command="{Binding BackupDataCommand}"
+                                Background="#3B82F6"
+                                Foreground="White"
+                                Padding="12,8"
+                                BorderThickness="0"
+                                Margin="0,0,15,0">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="📥 Yedekten Geri Yükle" 
+                                Command="{Binding RestoreDataCommand}"
+                                Background="#E5E7EB"
+                                Foreground="#4B5563"
+                                Padding="12,8"
+                                BorderThickness="0">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="6"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Dil Ayarları Paneli -->
+            <Border Grid.Row="5" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Panel Başlığı -->
+                    <TextBlock Grid.Row="0" 
+                               Text="🌐 Dil Ayarları" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
+
+                    <!-- Dil Seçimi -->
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" 
+                                   Text="Uygulama Dili:" 
+                                   VerticalAlignment="Center" 
+                                   FontSize="15" 
+                                   Foreground="#4B5563" />
+
+                        <ComboBox Grid.Column="1" 
+                                  SelectedIndex="{Binding LanguageIndex}" 
+                                  Width="150" 
+                                  HorizontalAlignment="Left"
+                                  Padding="8,5"
+                                  BorderThickness="1"
+                                  BorderBrush="#E5E7EB">
+                            <ComboBoxItem Content="Türkçe" />
+                            <ComboBoxItem Content="English" />
+                            <ComboBoxItem Content="Deutsch" />
+                            <ComboBoxItem Content="Français" />
+                            <ComboBoxItem Content="Español" />
+                        </ComboBox>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Hakkında Bölümü -->
+            <Border Grid.Row="6" 
+                    Background="White" 
+                    CornerRadius="10" 
+                    Padding="20" 
+                    Margin="0,0,0,20"
+                    Effect="{StaticResource CardShadow}">
+                <StackPanel>
+                    <TextBlock Text="ℹ️ LifeTrack AI Hakkında" 
+                               FontSize="20" 
+                               FontWeight="SemiBold" 
+                               Foreground="#1F2937" 
+                               Margin="0,0,0,15" />
+
+                    <TextBlock TextWrapping="Wrap" Foreground="#4B5563">
+                        LifeTrack AI, günlük yaşamınızı düzenlemenize yardımcı olan kapsamlı bir kişisel asistan uygulamasıdır.
+                        Gider takibi, not alma, hatırlatıcılar ve yapay zeka asistanı özelliklerine sahiptir.
+                        <LineBreak /><LineBreak />
+                        Sürüm: 1.0.0
+                        <LineBreak />
+                        © 2025 LifeTrack AI
+                    </TextBlock>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,15,0,0">
+                        <Button Content="🌐 Web Sitesi" 
+                                Command="{Binding VisitWebsiteCommand}"
+                                Background="Transparent"
+                                Foreground="#3B82F6"
+                                BorderThickness="0"
+                                Margin="0,0,15,0"
+                                Padding="0" />
+
+                        <Button Content="📄 Kullanım Koşulları" 
+                                Command="{Binding ShowTermsCommand}"
+                                Background="Transparent"
+                                Foreground="#3B82F6"
+                                BorderThickness="0"
+                                Margin="0,0,15,0"
+                                Padding="0" />
+
+                        <Button Content="🔒 Gizlilik Politikası" 
+                                Command="{Binding ShowPrivacyCommand}"
+                                Background="Transparent"
+                                Foreground="#3B82F6"
+                                BorderThickness="0"
+                                Padding="0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Kaydet Butonu -->
+            <Button Grid.Row="7" 
+                    Content="💾 Ayarları Kaydet" 
+                    Command="{Binding SaveSettingsCommand}"
+                    Margin="0,20,0,0" 
+                    Padding="15,10" 
+                    HorizontalAlignment="Right"
+                    Background="#10B981" 
+                    Foreground="White" 
+                    BorderThickness="0"
+                    FontWeight="SemiBold">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="6"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

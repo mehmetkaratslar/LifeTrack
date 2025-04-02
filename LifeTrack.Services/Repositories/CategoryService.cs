@@ -1,14 +1,14 @@
-﻿using LifeTrack.Core;
+﻿using LifeTrack.Core.Models;
 using LifeTrack.Services.Data;
+using LifeTrack.Services.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using LifeTrack.Core.Models;
 
 namespace LifeTrack.Services
 {
-    public class CategoryService : IRepository<Category>
+    public class CategoryService : ICategoryService
     {
         private readonly LifeTrackDbContext _dbContext;
 
@@ -37,7 +37,6 @@ namespace LifeTrack.Services
             {
                 var category = await _dbContext.Categories.FindAsync(id);
                 if (category == null) return false;
-
                 _dbContext.Categories.Remove(category);
                 await _dbContext.SaveChangesAsync();
                 return true;
@@ -69,6 +68,39 @@ namespace LifeTrack.Services
             catch
             {
                 return false;
+            }
+        }
+
+        // Senkron metotları da ekleyelim, böylece geçiş sürecinde eski kodları da destekler
+        public IEnumerable<Category> GetAll()
+        {
+            return _dbContext.Categories.ToList();
+        }
+
+        public Category GetById(int id)
+        {
+            return _dbContext.Categories.Find(id);
+        }
+
+        public void Add(Category entity)
+        {
+            _dbContext.Categories.Add(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Update(Category entity)
+        {
+            _dbContext.Categories.Update(entity);
+            _dbContext.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var category = _dbContext.Categories.Find(id);
+            if (category != null)
+            {
+                _dbContext.Categories.Remove(category);
+                _dbContext.SaveChanges();
             }
         }
     }

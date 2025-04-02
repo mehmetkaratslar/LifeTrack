@@ -7,19 +7,86 @@
         xmlns:viewModels="clr-namespace:LifeTrack.Desktop.ViewModels"
         xmlns:views="clr-namespace:LifeTrack.Desktop.Views"
         mc:Ignorable="d"
-        Title="LifeTrack AI" Height="700" Width="1000">
+        Title="LifeTrack AI" Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="220" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+<<<<<<< HEAD
+
+=======
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         <!-- Sol Menü Paneli -->
         <Border Background="#2E3A47" Grid.Column="0">
-            <StackPanel>
-                <TextBlock Text="LifeTrack AI" Foreground="White" 
-                           FontSize="26" FontWeight="Bold" 
-                           Margin="20,30,0,40" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
+<<<<<<< HEAD
+                <!-- Uygulama Başlığı -->
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="LifeTrack AI" Foreground="White" 
+                               FontSize="26" FontWeight="Bold" 
+                               Margin="20,30,0,40" />
+                </StackPanel>
+
+                <!-- Menü Butonları -->
+                <StackPanel Grid.Row="1">
+                    <RadioButton x:Name="dashboardButton"
+                                Content="Ana Sayfa" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Dashboard"
+                                Style="{StaticResource MenuButtonStyle}"
+                                IsChecked="True" />
+
+                    <RadioButton x:Name="expenseButton"
+                                Content="Giderler"
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Expense"
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                    <RadioButton x:Name="noteButton"
+                                Content="Notlar" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Note"
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                    <RadioButton x:Name="reminderButton"
+                                Content="AI Asistan" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Reminder"
+                                Style="{StaticResource MenuButtonStyle}" />
+
+                    <RadioButton x:Name="settingsButton"
+                                Content="Ayarlar" 
+                                Command="{Binding NavigateToViewCommand}"
+                                CommandParameter="Settings"
+                                Style="{StaticResource MenuButtonStyle}" />
+                </StackPanel>
+
+                <!-- Alt Bilgi -->
+                <StackPanel Grid.Row="2" Margin="0,0,0,20">
+                    <TextBlock Text="LifeTrack AI v1.0" 
+                               Foreground="#BDBDBD"
+                               FontSize="12"
+                               HorizontalAlignment="Center"
+                               Margin="0,10,0,0" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- İçerik Alanı -->
+        <Border Grid.Column="1" Background="#F5F7FA">
+            <ContentControl x:Name="contentPresenter" Grid.Column="1" />
+        </Border>
+=======
                 <!-- Butonları ekleyelim -->
                 <Button Content="Ana Sayfa" 
                         Click="Dashboard_Click"
@@ -65,5 +132,6 @@
 
         <!-- ContentPresenter kullanarak içeriği doğrudan değiştirelim -->
         <ContentPresenter x:Name="contentPresenter" Grid.Column="1" />
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
     </Grid>
 </Window>

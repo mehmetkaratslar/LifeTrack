@@ -1,6 +1,8 @@
-﻿using LifeTrack.Desktop.ViewModels;
+﻿using LifeTrack.Core.Models;
+using LifeTrack.Desktop.ViewModels;
 using LifeTrack.Services;
 using LifeTrack.Services.Data;
+using LifeTrack.Services.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
@@ -40,6 +42,21 @@ namespace LifeTrack.Desktop
             // DbContext
             services.AddDbContext<LifeTrackDbContext>();
 
+<<<<<<< HEAD
+            // Servisler
+            services.AddScoped<IRepository<Expense>, ExpenseService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IRepository<Note>, NoteService>();
+            services.AddScoped<IRepository<Reminder>, ReminderService>();
+
+            // ViewModels - Scoped kullanıyoruz (bir oturum için tek instance)
+            services.AddScoped<DashboardViewModel>();
+            services.AddScoped<ExpenseViewModel>();
+            services.AddScoped<NoteViewModel>();
+            services.AddScoped<ReminderViewModel>();
+            services.AddScoped<SettingsViewModel>();
+            services.AddScoped<MainViewModel>();
+=======
             // Servisler - Singleton kullanıyoruz
             services.AddSingleton<ExpenseService>();
             services.AddSingleton<CategoryService>();
@@ -53,6 +70,7 @@ namespace LifeTrack.Desktop
             services.AddSingleton<ReminderViewModel>();
             services.AddSingleton<SettingsViewModel>();
             services.AddSingleton<MainViewModel>();
+>>>>>>> 70f5e287882ba226133052ee4d6f6266b64fb919
         }
     }
 }

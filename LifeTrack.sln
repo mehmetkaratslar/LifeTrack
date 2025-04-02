@@ -9,6 +9,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeTrack.Services", "LifeT
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeTrack.Desktop", "LifeTrack.Desktop\LifeTrack.Desktop.csproj", "{116C6EBB-7516-A944-0DB6-1EAE36EAEB7A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeTrack.Mobile", "LifeTrack.Mobile\LifeTrack.Mobile.csproj", "{800C0D09-ADF1-48C2-9F58-9025416F784E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +34,12 @@ Global
 		{116C6EBB-7516-A944-0DB6-1EAE36EAEB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{116C6EBB-7516-A944-0DB6-1EAE36EAEB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{116C6EBB-7516-A944-0DB6-1EAE36EAEB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{800C0D09-ADF1-48C2-9F58-9025416F784E}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

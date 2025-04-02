@@ -19,6 +19,7 @@ namespace LifeTrack.Services.Repositories
             _dbSet = context.Set<T>();
         }
 
+        // Asenkron metotlar
         public async Task<T> GetByIdAsync(int id)
         {
             return await _dbSet.FindAsync(id);
@@ -34,42 +35,83 @@ namespace LifeTrack.Services.Repositories
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task<bool> AddAsync(T entity)
         {
-            await _dbSet.AddAsync(entity);
+            try
+            {
+                await _dbSet.AddAsync(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task<bool> UpdateAsync(T entity)
+        {
+            try
+            {
+                _dbSet.Attach(entity);
+                _context.Entry(entity).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            try
+            {
+                var entity = await GetByIdAsync(id);
+                if (entity == null) return false;
+                _dbSet.Remove(entity);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        // Senkron metotlar - IRepository interface'inden
+        public T GetById(int id)
+        {
+            return _dbSet.Find(id);
+        }
+
+        public IEnumerable<T> GetAll()
+        {
+            return _dbSet.ToList();
+        }
+
+        public void Add(T entity)
+        {
+            _dbSet.Add(entity);
+            _context.SaveChanges();
+        }
+
+        public void Update(T entity)
         {
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
-            return Task.CompletedTask;
+            _context.SaveChanges();
         }
 
-        public Task DeleteAsync(T entity)
+        public void Delete(int id)
         {
-            _dbSet.Remove(entity);
-            return Task.CompletedTask;
-        }
-
-        public async Task SaveChangesAsync()
-        {
-            await _context.SaveChangesAsync();
-        }
-
-        Task<bool> IRepository<T>.AddAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<bool> IRepository<T>.UpdateAsync(T entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> DeleteAsync(int id)
-        {
-            throw new NotImplementedException();
+            var entity = GetById(id);
+            if (entity != null)
+            {
+                _dbSet.Remove(entity);
+                _context.SaveChanges();
+            }
         }
     }
 }
